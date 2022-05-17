@@ -51,8 +51,6 @@ echo -e "\033[1;37m━━━━━━━━━━━━━━━━━━━━�
 			sks='\033[1;32mON'
 			echo -e "\033[1;33mLink para o app http://$IP\033[1;37m:\033[1;32m$(netstat -nplt | grep 'python3' | awk {'print $4'} | cut -d: -f2 | xargs)/checkUser"
 			echo ""
-			echo -e "\033[1;33mLink para o app http://DOMINIODESSAVPS\033[1;37m:\033[1;32m$(netstat -nplt | grep 'python3' | awk {'print $4'} | cut -d: -f2 | xargs)/checkUser"
-			echo ""
 		} || {
 			sks='\033[1;31mOFF'
 		}
