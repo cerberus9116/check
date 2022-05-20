@@ -19,6 +19,7 @@ cd /bin || exit
 wget https://github.com/nandoslayer/plusnssh/raw/ntech/gestorssh/pweb > /dev/null 2>&1
 chmod 777 pweb > /dev/null 2>&1
 clear
+mkdir /SSHPLUS/painel > /dev/null 2>&1
 mkdir /bin/ppweb > /dev/null 2>&1
 cd /bin/ppweb || exit
 rm *.sh versao* > /dev/null 2>&1
