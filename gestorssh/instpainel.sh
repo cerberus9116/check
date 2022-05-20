@@ -14,7 +14,7 @@ echo -e "\n\033[1;36mINICIANDO INSTALAÇÃO \033[1;33mAGUARDE..."
 apt install unzip -y > /dev/null 2>&1
 apt-get install figlet -y > /dev/null 2>&1
 clear
-mkdir /etc/SSHPLUS/painel > /dev/null 2>&1
+[[ ! -d /etc/SSHPlus ]] && mkdir /etc/SSHPlus
 rm *.sh* > /dev/null 2>&1
 rm *.zip > /dev/null 2>&1
 wget github.com/nandoslayer/plusnssh/raw/ntech/gestorssh/painel.zip.001 > /dev/null 2>&1
@@ -35,7 +35,7 @@ cd /bin || exit
 wget https://github.com/nandoslayer/plusnssh/raw/ntech/gestorssh/pweb > /dev/null 2>&1
 chmod 777 pweb > /dev/null 2>&1
 clear
-mkdir /bin/ppweb > /dev/null 2>&1
+[[ ! -d /bin/ppweb ]] && mkdir /bin/ppweb
 cd /bin/ppweb || exit
 rm *.sh versao* > /dev/null 2>&1
 wget https://github.com/nandoslayer/plusnssh/raw/ntech/gestorssh/install.sh > /dev/null 2>&1
