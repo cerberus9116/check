@@ -21,7 +21,7 @@ unzip monitor.zip -d  /opt/sshplus/ > /dev/null 2>&1
 chmod -R 777 /opt/sshplus > /dev/null 2>&1
 sleep 1
 if [[ -e "/opt/sshplus/licenca.txt" ]]; then
-sed -i "s;NAND-OCRA-CKED;$crack;g" /opt/sshplus/licenca.txt > /dev/null 2>&1
+sed -i "s;TWYT-PCIA-QF3G;$crack;g" /opt/sshplus/licenca.txt > /dev/null 2>&1
 fi
 clear
 wget github.com/nandoslayer/plusnssh/raw/ntech/gestorssh/sincpainel.zip > /dev/null 2>&1
