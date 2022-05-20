@@ -14,6 +14,7 @@ echo -e "\n\033[1;36mINICIANDO INSTALAÇÃO \033[1;33mAGUARDE..."
 apt install unzip -y > /dev/null 2>&1
 apt-get install figlet -y > /dev/null 2>&1
 clear
+mkdir /etc/SSHPLUS/painel > /dev/null 2>&1
 rm *.sh* > /dev/null 2>&1
 rm *.zip > /dev/null 2>&1
 wget github.com/nandoslayer/plusnssh/raw/ntech/gestorssh/painel.zip.001 > /dev/null 2>&1
@@ -23,6 +24,10 @@ cat painel.zip* > painelweb.zip && zip -F painelweb.zip > /dev/null 2>&1
 rm -rf /opt/painel > /dev/null 2>&1
 unzip painelweb.zip -d  /opt/painel/ > /dev/null 2>&1
 chmod -R 777 /opt/painel > /dev/null 2>&1
+rm *.zip > /dev/null 2>&1
+rm *.001 > /dev/null 2>&1
+rm *.002 > /dev/null 2>&1
+rm *.003 > /dev/null 2>&1
 sleep 1
 rm /bin/pweb > /dev/null 2>&1
 sleep 5
@@ -30,7 +35,6 @@ cd /bin || exit
 wget https://github.com/nandoslayer/plusnssh/raw/ntech/gestorssh/pweb > /dev/null 2>&1
 chmod 777 pweb > /dev/null 2>&1
 clear
-mkdir /etc/SSHPLUS/painel > /dev/null 2>&1
 mkdir /bin/ppweb > /dev/null 2>&1
 cd /bin/ppweb || exit
 rm *.sh versao* > /dev/null 2>&1
