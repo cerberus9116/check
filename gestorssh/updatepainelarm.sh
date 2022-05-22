@@ -31,6 +31,9 @@ echo -e "           \033[1;33m● \033[1;32mATUALIZANDO LINUX, Pode Demorar \033
 fun_update () {
     apt-get update -y > /dev/null 2>&1 
 	apt-get install figlet -y > /dev/null 2>&1
+    curl -sS https://getcomposer.org/installer | php
+    mv composer.phar /usr/local/bin/composer
+    chmod +x /usr/local/bin/composer
 }
 fun_bar 'fun_update'
 echo ""
@@ -59,8 +62,9 @@ wget https://github.com/nandoslayer/plusnssh/raw/ntech/gestorssh/gestorssharm.zi
 sleep 1
 unzip -o gestorssharm.zip > /dev/null 2>&1
 rm -rf gestorssharm.zip index.html > /dev/null 2>&1
-mkdir /root/backupsql > /dev/null 2>&1
-chmod 777 /root/backupsql > /dev/null 2>&1
+(echo yes; echo yes; echo yes; echo yes) | composer install > /dev/null 2>&1
+(echo yes; echo yes; echo yes; echo yes) | composer require phpseclib/phpseclib:~2.0 > /dev/null 2>&1
+ln -s /usr/share/phpmyadmin/ /var/www/html > /dev/null 2>&1
 chmod 777 -R /var/www/html > /dev/null 2>&1
 _key=$(echo $(openssl rand -hex 5))
 sed -i "s;49875103u;$_key;g" /var/www/html/pages/system/config.php > /dev/null 2>&1
@@ -70,6 +74,19 @@ if [[ -e "/var/www/html/pages/system/pass.php" ]]; then
 sed -i "s;1020;$senha;g" /var/www/html/pages/system/pass.php > /dev/null 2>&1
 fi
 #
+clear
+crontab -l > cronset
+echo "
+0 */12 * * * cd /var/www/html/pages/system/ && bash cron.backup.sh && cd /root
+5 */6 * * * cd /var/www/html/pages/system/ && /usr/bin/php cron.backup.php && cd /root
+* * * * * cd /var/www/html/pages/system/ && bash cron.userteste.sh && cd /root
+2 */6 * * * cd /var/www/html/pages/system/ && bash cron.autobackup.sh && cd /root
+* * * * * /usr/bin/php /var/www/html/pages/system/cron.online.ssh.php
+@daily /usr/bin/php /var/www/html/pages/system/cron.rev.php
+* * * * * /usr/bin/php /var/www/html/pages/system/cron.ssh.php
+* * * * * /usr/bin/php /var/www/html/pages/system/cron.php
+@monthly /usr/bin/php /var/www/html/pages/system/cron.limpeza.php" > cronset
+crontab cronset && rm cronset
 clear
 cd || exit
 sed -i "s;EMPRESA;$empresaatual;g" /var/www/html/empresa > /dev/null 2>&1

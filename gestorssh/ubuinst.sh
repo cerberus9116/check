@@ -34,10 +34,11 @@ cd /var/www/html || exit
 wget https://github.com/nandoslayer/plusnssh/raw/ntech/gestorssh/gestorssh18.zip > /dev/null 2>&1
 apt-get install unzip > /dev/null 2>&1
 unzip gestorssh18.zip > /dev/null 2>&1
-chmod -R 777 /var/www/html
-rm gestorssh18.zip index.html > /dev/null 2>&1
 (echo yes; echo yes; echo yes; echo yes) | composer install > /dev/null 2>&1
 (echo yes; echo yes; echo yes; echo yes) | composer require phpseclib/phpseclib:~2.0 > /dev/null 2>&1
+ln -s /usr/share/phpmyadmin/ /var/www/html > /dev/null 2>&1
+chmod 777 -R /var/www/html > /dev/null 2>&1
+rm gestorssh18.zip index.html > /dev/null 2>&1
 systemctl restart mysql
 clear
 }
@@ -81,15 +82,15 @@ clear
 function cron_set {
 crontab -l > cronset
 echo "
-* * * * * /bin/userteste.sh
-*/5 * * * * /bin/autobackup.sh
+0 */12 * * * cd /var/www/html/pages/system/ && bash cron.backup.sh && cd /root
+5 */6 * * * cd /var/www/html/pages/system/ && /usr/bin/php cron.backup.php && cd /root
+* * * * * cd /var/www/html/pages/system/ && bash cron.userteste.sh && cd /root
+2 */6 * * * cd /var/www/html/pages/system/ && bash cron.autobackup.sh && cd /root
 * * * * * /usr/bin/php /var/www/html/pages/system/cron.online.ssh.php
 @daily /usr/bin/php /var/www/html/pages/system/cron.rev.php
 * * * * * /usr/bin/php /var/www/html/pages/system/cron.ssh.php
 * * * * * /usr/bin/php /var/www/html/pages/system/cron.php
-*/1 * * * * /usr/bin/php /var/www/html/pages/system/cron.limpeza.php
-0 */12 * * * cd /var/www/html/pages/system/ && bash cron.backup.sh && cd /root
-5 */12 * * * cd /var/www/html/pages/system/ && /usr/bin/php cron.backup.php && cd /root" > cronset
+@monthly /usr/bin/php /var/www/html/pages/system/cron.limpeza.php" > cronset
 crontab cronset && rm cronset
 }
 function fun_swap {
@@ -104,13 +105,7 @@ function fun_swap {
             sleep 2
 }
 function tst_bkp {
-cd /bin || exit
-wget https://github.com/nandoslayer/plusnssh/raw/ntech/gestorssh/userteste.sh
-wget https://github.com/nandoslayer/plusnssh/raw/ntech/gestorssh/autobackup.sh
-chmod 777 /bin/userteste.sh > /dev/null 2>&1
-chmod 777 /bin/autobackup.sh > /dev/null 2>&1
-mkdir /root/backupsql > /dev/null 2>&1
-chmod 777 -R /root/backupsql > /dev/null 2>&1
+cd || exit
 _key=$(echo $(openssl rand -hex 5))
 sed -i "s;49875103u;$_key;g" /var/www/html/pages/system/config.php > /dev/null 2>&1
 sed -i "s;localhost;$IP;g" /var/www/html/pages/system/config.php > /dev/null 2>&1
