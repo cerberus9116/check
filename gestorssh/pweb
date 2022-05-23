@@ -1,4 +1,31 @@
 #!/bin/bash
+fun_bar () {
+comando[0]="$1"
+comando[1]="$2"
+ (
+[[ -e $HOME/fim ]] && rm $HOME/fim
+[[ ! -e /usr/lib/sshplus ]] && rm -rf /bin/menu > /dev/null 2>&1
+${comando[0]} -y > /dev/null 2>&1
+${comando[1]} -y > /dev/null 2>&1
+touch $HOME/fim
+ ) > /dev/null 2>&1 &
+ tput civis
+echo -ne "\033[1;33m["
+while true; do
+   for((i=0; i<18; i++)); do
+   echo -ne "\033[1;31m#"
+   sleep 0.1s
+   done
+   [[ -e $HOME/fim ]] && rm $HOME/fim && break
+   echo -e "\033[1;33m]"
+   sleep 1s
+   tput cuu1
+   tput dl1
+   echo -ne "\033[1;33m["
+done
+echo -e "\033[1;33m]\033[1;37m -\033[1;32m OK !\033[1;37m"
+tput cnorm
+}
 fun_prog ()
 {
     comando[0]="$1" 
@@ -34,6 +61,7 @@ _usop=$(printf '%-5s' "$(top -bn1 | awk '/Cpu/ { cpu = "" 100 - $8 "%" }; END { 
 _core=$(printf '%-5s' "$(grep -c cpu[0-9] /proc/stat)")
 _system=$(printf '%-14s' "$system")
 _hora=$(printf '%(%H:%M:%S)T')
+autm=$(grep "pweb;" /etc/profile > /dev/null && echo -e "\033[1;32mLIG ◉" || echo -e "\033[1;31mDES ○")
 fun_update () {
     apt-get update -y > /dev/null 2>&1
 }
@@ -44,7 +72,83 @@ fun_upgrade () {
 fun_atpweb () {
     bash <(wget -qO- raw.githubusercontent.com/nandoslayer/plusnssh/ntech/gestorssh/instpainel.sh)
 }
+autoexec () {
+   if grep "pweb;" /etc/profile > /dev/null; then
+      clear
+      echo -e "\033[1;32mDESATIVANDO AUTO EXECUÇÃO DO PWEB\033[0m"
+      offautpweb () {
+         sed -i '/pweb;/d' /etc/profile
+      }
+      echo ""
+      fun_bar 'offautpweb'
+      echo ""
+      echo -e "\033[1;31mAUTO EXECUÇÃO DESATIVADO!\033[0m"
+      sleep 1.5s
+      pweb
+   else
+      clear
+      echo -e "\033[1;32mATIVANDO AUTO EXECUÇÃO DO PWEB\033[0m"
+      autpweb () {
+         grep -v "^pweb;" /etc/profile > /tmp/tmpass && mv /tmp/tmpass /etc/profile
+         echo "pweb;" >> /etc/profile
+      }
+      echo ""
+      fun_bar 'autpweb'
+      echo ""
+      echo -e "\033[1;32mAUTO EXECUÇÃO ATIVADO!\033[0m"
+      sleep 1.5s
+      pweb
+   fi
 
+}
+velocity () {
+aguarde () {
+comando[0]="$1"
+comando[1]="$2"
+ (
+[[ -e $HOME/fim ]] && rm $HOME/fim
+[[ ! -d /etc/SSHPlus ]] && rm -rf /bin/menu
+${comando[0]} > /dev/null 2>&1
+${comando[1]} > /dev/null 2>&1
+touch $HOME/fim
+ ) > /dev/null 2>&1 &
+ tput civis
+echo -ne "\033[1;33mAGUARDE \033[1;37m- \033[1;33m["
+while true; do
+   for((i=0; i<18; i++)); do
+   echo -ne "\033[1;31m#"
+   sleep 0.1s
+   done
+   [[ -e $HOME/fim ]] && rm $HOME/fim && break
+   echo -e "\033[1;33m]"
+   sleep 1s
+   tput cuu1
+   tput dl1
+   echo -ne "\033[1;33mAGUARDE \033[1;37m- \033[1;33m["
+done
+echo -e "\033[1;33m]\033[1;37m -\033[1;32m OK !\033[1;37m "
+tput cnorm
+}
+fun_tst () {
+apt install speedtest-cli -y> /dev/null 2>&1 
+speedtest --share > speed
+}
+echo ""
+echo -e "\033[1;37m┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\033[0m"
+echo -e "\033[1;37m┃\E[44;1;37m               🚀 TESTE DE VELOCIDADE DA VPS 🚀               \E[0m\033[1;37m┃"
+echo -e "\033[1;37m┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛\033[0m"
+aguarde 'fun_tst'
+png=$(cat speed | sed -n '5 p' |awk -F : {'print $NF'})
+down=$(cat speed | sed -n '7 p' |awk -F :  {'print $NF'})
+upl=$(cat speed | sed -n '9 p' |awk -F :  {'print $NF'})
+lnk=$(cat speed | sed -n '10 p' |awk {'print $NF'})
+echo -e "\033[1;37m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -e "\033[1;32mPING:\033[1;37m$png"
+echo -e "\033[1;32mDOWNLOAD:\033[1;37m$down"
+echo -e "\033[1;32mUPLOAD:\033[1;37m$upl"
+echo -e "\033[1;37m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+rm -rf $HOME/speed
+}
 fun_limpiarepositorios () {
 ##LIMPA ROOT
 rm -rf /root/*.sh* > /dev/null 2>&1
@@ -231,9 +335,11 @@ echo -e "┃\033[1;31m[\033[1;36m05\033[1;31m] \033[1;37m• \033[1;37mREMOVER P
 echo -e "┃\033[1;31m[\033[1;36m06\033[1;31m] \033[1;37m• \033[1;37mBAIXAR ÚLTIMA VERSÃO DO PWEB \033[1;31m\033[1;32m            VERSÃO: $ver   \033[1;37m┃"
 echo -e "┃\033[1;31m[\033[1;36m07\033[1;31m] \033[1;37m• \033[1;37mMUDAR A SENHA ROOT \033[1;31m                                    \033[1;37m┃"
 echo -e "┃\033[1;31m[\033[1;36m08\033[1;31m] \033[1;37m• \033[1;37mMENU AVANÇADO COM TELEGRAM \033[1;31m                    BREVE   \033[1;37m┃"
+echo -e "┃\033[1;31m[\033[1;36m09\033[1;31m] \033[1;37m• \033[1;37mSPEED TEST \033[1;31m                                            \033[1;37m┃"
+echo -e "┃\033[1;31m[\033[1;36m10\033[1;31m] \033[1;37m• \033[1;37mAUTO EXECUÇÃO DO PWEB                          $autm   \033[1;37m┃"
 echo -e "┃\033[1;31m[\033[1;36m00\033[1;31m] \033[1;37m• \033[1;37mSAIR \033[1;32m<\033[1;33m<\033[1;31m<\033[0m \033[0m                                              \033[1;37m┃"
 echo -e "\033[1;37m┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛\033[0m"
-echo -ne "\033[1;37m┗━┫\033[1;32mO QUE DESEJA FAZER \033[1;31m? : "; read -r x
+echo -ne "\033[1;37m┗━┫\033[1;32mO QUE DESEJA FAZER \033[1;31m?"; read -r x
 
 case "$x" in 
    1 | 01)
@@ -274,6 +380,18 @@ case "$x" in
     8 | 08)
    clear
    /opt/painel/painel
+   exit;
+   ;;
+    9 | 09)
+   clear
+   velocity
+   echo -ne "\n\033[1;31mENTER \033[1;33mpara retornar ao \033[1;32mPWEB!\033[0m"; read
+   pweb
+   exit;
+   ;;
+    10 | 010)
+   clear
+   autoexec
    exit;
    ;;
    0 | 00)
