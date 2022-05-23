@@ -130,10 +130,10 @@ echo -e "\033[1;33m]\033[1;37m -\033[1;32m OK !\033[1;37m "
 tput cnorm
 }
 fun_tst () {
-wget https://github.com/nandoslayer/plusnssh/raw/ntech/gestorssh/speedtest-cli -O speedtest2.0 > /dev/null 2>&1
-chmod +x speedtest2.0 > /dev/null 2>&1
-mv speedtest2.0 /usr/bin/speedtest2.0 > /dev/null 2>&1
-speedtest2.0 --share > speed
+wget https://github.com/nandoslayer/plusnssh/raw/ntech/gestorssh/speedtest-cli -O speedtest2 > /dev/null 2>&1
+chmod +x speedtest2 > /dev/null 2>&1
+mv speedtest2 /usr/bin/speedtest2 > /dev/null 2>&1
+speedtest2 --share > speed
 }
 echo ""
 echo -e "\033[1;37m┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\033[0m"
