@@ -76,23 +76,9 @@ title() {
   msg -bar
 }
 
-
-
 stop_install() {
-  title "INSTALLATION CANCELED"
+  title "INSTALAÇÃO CANCELADA"
   exit
-}
-
-time_reboot() {
-  print_center -ama "RESTARTING VPS IN $1 SECONDS"
-  REBOOT_TIMEOUT="$1"
-
-  while [ $REBOOT_TIMEOUT -gt 0 ]; do
-    print_center -ne "-$REBOOT_TIMEOUT-\r"
-    sleep 1
-    : $((REBOOT_TIMEOUT--))
-  done
-  reboot
 }
 
 os_system() {
@@ -144,16 +130,16 @@ dependencias() {
 install_start() {
   msg -bar
 
-  echo -e "\e[1;97m           \e[5m\033[1;100m   SYSTEM UPDATE   \033[1;37m"
+  echo -e "\e[1;97m           \e[5m\033[1;100m   ATUALIZAÇÃO DO SISTEMA   \033[1;37m"
   msg -bar
-  print_center -ama "System packages are updating.\n It may take a while and ask for some confirmations.\n"
+  print_center -ama "Os pacotes do sistema estão sendo atualizados.\n Pode demorar um pouco e pedir algumas confirmações.\n"
   msg -bar3
-  msg -ne "\n Do you wish to continue? [S/n]: "
+  msg -ne "\n Você deseja continuar? [S/n]: "
   read opcion
   [[ "$opcion" != @(s|S) ]] && stop_install
   clear && clear
   msg -bar
-  echo -e "\e[1;97m           \e[5m\033[1;100m   SYSTEM UPDATE   \033[1;37m"
+  echo -e "\e[1;97m           \e[5m\033[1;100m   ATUALIZAÇÃO DO SISTEMA   \033[1;37m"
   msg -bar
   os_system
   apt update -y
@@ -164,21 +150,21 @@ install_start() {
 install_continue() {
   os_system
   msg -bar
-  echo -e "      \e[5m\033[1;100m   COMPLETING PACKAGES FOR THE SCRIPT   \033[1;37m"
+  echo -e "      \e[5m\033[1;100m   CONCLUINDO PACOTES PARA O SCRIPT   \033[1;37m"
   msg -bar
   print_center -ama "$distro $vercion"
-  print_center -verd "INSTALLING DEPENDENCIES"
+  print_center -verd "INSTALANDO DEPENDÊNCIAS"
   msg -bar3
   dependencias
   msg -bar3
-  print_center -azu "Removing obsolete packages"
+  print_center -azu "Removendo pacotes obsoletos"
   apt autoremove -y &>/dev/null
   sleep 2
   tput cuu1 && tput dl1
   msg -bar
-  print_center -ama "If some of the dependencies fail!!!\nwhen finished, you can try to install\nthe same manually using the following command\napt install package_name"
+  print_center -ama "Se algumas das dependências falharem!!!\nQuando terminar, você pode tentar instalar\no mesmo manualmente usando o seguinte comando\napt install nome_do_pacote"
   msg -bar
-  read -t 60 -n 1 -rsp $'\033[1;39m       << Press enter to continue >>\n'
+  read -t 60 -n 1 -rsp $'\033[1;39m       << Pressione enter para continuar >>\n'
 }
 install_continue2() {
 [[ ! -d /etc/SSHPlus ]] && mkdir /etc/SSHPlus

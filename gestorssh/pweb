@@ -43,6 +43,39 @@ fun_prog ()
     tput cnorm
     echo -e "\e[1DOK"
 }
+print_center() {
+  if [[ -z $2 ]]; then
+    text="$1"
+  else
+    col="$1"
+    text="$2"
+  fi
+
+  while read line; do
+    unset space
+    x=$(((54 - ${#line}) / 2))
+    for ((i = 0; i < $x; i++)); do
+      space+=' '
+    done
+    space+="$line"
+    if [[ -z $2 ]]; then
+      msg -azu "$space"
+    else
+      msg "$col" "$space"
+    fi
+  done <<<$(echo -e "$text")
+}
+time_reboot() {
+  print_center -ama "REINICIAR VPS EM $1 SEGUNDOS"
+  REBOOT_TIMEOUT="$1"
+
+  while [ $REBOOT_TIMEOUT -gt 0 ]; do
+    print_center -ne "-$REBOOT_TIMEOUT-\r"
+    sleep 1
+    : $((REBOOT_TIMEOUT--))
+  done
+  reboot
+}
 if [[ "$(grep -c "Ubuntu" /etc/issue.net)" = "1" ]]; then
 system=$(cut -d' ' -f1 /etc/issue.net)
 system+=$(echo ' ')
@@ -413,7 +446,7 @@ case "$x" in
    echo ""
    echo -ne "\033[1;36mDESEJA REINICIAR [S/N]: \033[1;37m"; read x
 [[ $x = @(n|N) ]] && pweb
-   reboot
+ time_reboot
    exit;
    ;;
    0 | 00)
