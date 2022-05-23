@@ -1910,7 +1910,7 @@ def shell():
                         raise
         sys.exit(0)
 
-    printer('Testing from %(isp)s (%(ip)s)...' % speedtest.config['client'],
+    printer('TESTADO DO HOST %(isp)s (%(ip)s)' % speedtest.config['client'],
             quiet)
 
     if not args.mini:
