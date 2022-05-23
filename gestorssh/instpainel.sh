@@ -4,22 +4,186 @@ echo "America/Sao_Paulo" > /etc/timezone
 ln -fs /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime > /dev/null 2>&1
 dpkg-reconfigure --frontend noninteractive tzdata > /dev/null 2>&1
 clear
-echo -e "\E[44;1;37m    INSTALAR PAINEL PWEB GESTOR-SSH     \E[0m" 
-echo ""
-echo -e "                 \033[1;31mBy @nandoslayer\033[1;36m"
-echo ""
-echo -ne "\n\033[1;32mDE UM ENTER PARA \033[1;33mCONTINUAR...\033[1;37m: "; read -r
-clear
-echo -e "\n\033[1;36mINICIANDO INSTALAÇÃO \033[1;33mAGUARDE..."
-apt install unzip -y > /dev/null 2>&1
-apt-get install figlet -y > /dev/null 2>&1
-apt-get install python -y > /dev/null 2>&1
-clear
+msg() {
+   BRAN='\033[1;37m' && RED='\e[31m' && GREEN='\e[32m' && YELLOW='\e[33m'
+  BLUE='\e[34m' && MAGENTA='\e[35m' && MAG='\033[1;36m' && BLACK='\e[1m' && SEMCOR='\e[0m'
+  case $1 in
+  -ne) cor="${RED}${BLACK}" && echo -ne "${cor}${2}${SEMCOR}" ;;
+  -ama) cor="${YELLOW}${BLACK}" && echo -e "${cor}${2}${SEMCOR}" ;;
+  -verm) cor="${YELLOW}${BLACK}[!] ${RED}" && echo -e "${cor}${2}${SEMCOR}" ;;
+  -azu) cor="${MAG}${BLACK}" && echo -e "${cor}${2}${SEMCOR}" ;;
+  -verd) cor="${GREEN}${BLACK}" && echo -e "${cor}${2}${SEMCOR}" ;;
+  -bra) cor="${RED}" && echo -ne "${cor}${2}${SEMCOR}" ;;
+  -nazu) cor="${COLOR[6]}${BLACK}" && echo -ne "${cor}${2}${SEMCOR}" ;;
+  -gri) cor="\e[5m\033[1;100m" && echo -ne "${cor}${2}${SEMCOR}" ;;
+  "-bar2" | "-bar") cor="${RED}————————————————————————————————————————————————————" && echo -e "${SEMCOR}${cor}${SEMCOR}" ;;
+  esac
+}
+fun_bar() {
+  comando="$1"
+  _=$(
+    $comando >/dev/null 2>&1
+  ) &
+  >/dev/null
+  pid=$!
+  while [[ -d /proc/$pid ]]; do
+    echo -ne " \033[1;33m["
+    for ((i = 0; i < 20; i++)); do
+      echo -ne "\033[1;31m##"
+      sleep 0.5
+    done
+    echo -ne "\033[1;33m]"
+    sleep 1s
+    echo
+    tput cuu1
+    tput dl1
+  done
+  echo -e " \033[1;33m[\033[1;31m########################################\033[1;33m] - \033[1;32m100%\033[0m"
+  sleep 1s
+}
+
+print_center() {
+  if [[ -z $2 ]]; then
+    text="$1"
+  else
+    col="$1"
+    text="$2"
+  fi
+
+  while read line; do
+    unset space
+    x=$(((54 - ${#line}) / 2))
+    for ((i = 0; i < $x; i++)); do
+      space+=' '
+    done
+    space+="$line"
+    if [[ -z $2 ]]; then
+      msg -azu "$space"
+    else
+      msg "$col" "$space"
+    fi
+  done <<<$(echo -e "$text")
+}
+
+title() {
+  clear
+  msg -bar
+  if [[ -z $2 ]]; then
+    print_center -azu "$1"
+  else
+    print_center "$1" "$2"
+  fi
+  msg -bar
+}
+
+
+
+stop_install() {
+  title "INSTALLATION CANCELED"
+  exit
+}
+
+time_reboot() {
+  print_center -ama "RESTARTING VPS IN $1 SECONDS"
+  REBOOT_TIMEOUT="$1"
+
+  while [ $REBOOT_TIMEOUT -gt 0 ]; do
+    print_center -ne "-$REBOOT_TIMEOUT-\r"
+    sleep 1
+    : $((REBOOT_TIMEOUT--))
+  done
+  reboot
+}
+
+os_system() {
+  system=$(cat -n /etc/issue | grep 1 | cut -d ' ' -f6,7,8 | sed 's/1//' | sed 's/      //')
+  distro=$(echo "$system" | awk '{print $1}')
+
+  case $distro in
+  Debian) vercion=$(echo $system | awk '{print $3}' | cut -d '.' -f1) ;;
+  Ubuntu) vercion=$(echo $system | awk '{print $2}' | cut -d '.' -f1,2) ;;
+  esac
+}
+
+repo() {
+  link="https://github.com/nandoslayer/plusnssh/raw/ntech/gestorssh/source-list/$1.list"
+  case $1 in
+  8 | 9 | 10 | 11 | 14.04 | 16.04 | 18.04 | 20.04 | 20.10 | 21.04 | 21.10 | 22.04) wget -O /etc/apt/sources.list ${link} &>/dev/null ;;
+  esac
+}
+dependencias() {
+  soft="python"
+   for i in $soft; do
+    leng="${#i}"
+    puntos=$((21 - $leng))
+    pts="."
+    for ((a = 0; a < $puntos; a++)); do
+      pts+="."
+    done
+    msg -nazu "    Instalando $i$(msg -ama "$pts")"
+    if apt install $i -y &>/dev/null; then
+      msg -verd " INSTALADO"
+    else
+      msg -verm2 " ERRO"
+      sleep 2
+      tput cuu1 && tput dl1
+      print_center -ama "aplicando fix a $i"
+      dpkg --configure -a &>/dev/null
+      sleep 2
+      tput cuu1 && tput dl1
+
+      msg -nazu "    Instalando $i$(msg -ama "$pts")"
+      if apt install $i -y &>/dev/null; then
+        msg -verd " INSTALADO"
+      else
+        msg -verm2 " ERRO"
+      fi
+    fi
+  done
+}
+install_start() {
+  msg -bar
+
+  echo -e "\e[1;97m           \e[5m\033[1;100m   SYSTEM UPDATE   \033[1;37m"
+  msg -bar
+  print_center -ama "System packages are updating.\n It may take a while and ask for some confirmations.\n"
+  msg -bar3
+  msg -ne "\n Do you wish to continue? [S/n]: "
+  read opcion
+  [[ "$opcion" != @(s|S) ]] && stop_install
+  clear && clear
+  msg -bar
+  echo -e "\e[1;97m           \e[5m\033[1;100m   SYSTEM UPDATE   \033[1;37m"
+  msg -bar
+  os_system
+  apt update -y
+  apt upgrade -y
+  clear
+}
+
+install_continue() {
+  os_system
+  msg -bar
+  echo -e "      \e[5m\033[1;100m   COMPLETING PACKAGES FOR THE SCRIPT   \033[1;37m"
+  msg -bar
+  print_center -ama "$distro $vercion"
+  print_center -verd "INSTALLING DEPENDENCIES"
+  msg -bar3
+  dependencias
+  msg -bar3
+  print_center -azu "Removing obsolete packages"
+  apt autoremove -y &>/dev/null
+  sleep 2
+  tput cuu1 && tput dl1
+  msg -bar
+  print_center -ama "If some of the dependencies fail!!!\nwhen finished, you can try to install\nthe same manually using the following command\napt install package_name"
+  msg -bar
+  read -t 60 -n 1 -rsp $'\033[1;39m       << Press enter to continue >>\n'
+}
+install_continue2() {
 [[ ! -d /etc/SSHPlus ]] && mkdir /etc/SSHPlus
 [[ ! -d /etc/SSHPlus/Painel ]] && mkdir /etc/SSHPlus/Painel
-sleep 1
 rm /bin/pweb > /dev/null 2>&1
-sleep 5
 cd /bin || exit
 wget https://github.com/nandoslayer/plusnssh/raw/ntech/gestorssh/pweb > /dev/null 2>&1
 chmod 777 pweb > /dev/null 2>&1
@@ -44,4 +208,7 @@ echo ""
 echo -e "\033[1;31m \033[1;33mCOMANDO PRINCIPAL: \033[1;32mpweb\033[0m"
 echo -e "\033[1;33m MAIS INFORMAÇÕES \033[1;31m(\033[1;36mTELEGRAM\033[1;31m): \033[1;37m@nandoslayer\033[0m"
 cat /dev/null > ~/.bash_history && history -c
-exit
+}
+install_start
+install_continue
+install_continue2
