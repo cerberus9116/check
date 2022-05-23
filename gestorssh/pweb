@@ -136,19 +136,22 @@ mv speedtest2 /usr/bin/speedtest2 > /dev/null 2>&1
 speedtest2 --share > speed
 }
 echo ""
-echo -e "\033[1;37m┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\033[0m"
-echo -e "\033[1;37m┃\E[44;1;37m               🚀 TESTE DE VELOCIDADE DA VPS 🚀               \E[0m\033[1;37m┃"
-echo -e "\033[1;37m┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛\033[0m"
+echo -e "\033[1;37m◆═════════════════════════════════════════════════════════════◆\033[0m"
+echo -e "\E[44;1;37m            🚀 TESTE DE VELOCIDADE DO SERVIDOR 🚀              \E[0m"
+echo -e "\033[1;37m◆═════════════════════════════════════════════════════════════◆\033[0m"
+echo ""
 aguarde 'fun_tst'
+echo ""
 png=$(cat speed | sed -n '5 p' |awk -F : {'print $NF'})
 down=$(cat speed | sed -n '7 p' |awk -F :  {'print $NF'})
 upl=$(cat speed | sed -n '9 p' |awk -F :  {'print $NF'})
 lnk=$(cat speed | sed -n '10 p' |awk {'print $NF'})
-echo -e "\033[1;37m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
-echo -e "\033[1;32mPING:\033[1;37m$png"
+echo -e "\033[1;37m═══════════════════════════════════════════════════════════════\033[0m"
+echo -e "\033[1;32mPING (LATÊNCIA):\033[1;37m$png"
 echo -e "\033[1;32mDOWNLOAD:\033[1;37m$down"
 echo -e "\033[1;32mUPLOAD:\033[1;37m$upl"
-echo -e "\033[1;37m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -e "\033[1;32mLINK: \033[1;36m$lnk\033[0m"
+echo -e "\033[1;37m═══════════════════════════════════════════════════════════════\033[0m"
 rm -rf $HOME/speed
 }
 fun_limpiarepositorios () {
