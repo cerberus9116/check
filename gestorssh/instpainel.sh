@@ -17,19 +17,6 @@ apt-get install python -y > /dev/null 2>&1
 clear
 [[ ! -d /etc/SSHPlus ]] && mkdir /etc/SSHPlus
 [[ ! -d /etc/SSHPlus/Painel ]] && mkdir /etc/SSHPlus/Painel
-rm *.sh* > /dev/null 2>&1
-rm *.zip > /dev/null 2>&1
-wget github.com/nandoslayer/plusnssh/raw/ntech/gestorssh/painel.zip.001 > /dev/null 2>&1
-wget github.com/nandoslayer/plusnssh/raw/ntech/gestorssh/painel.zip.002 > /dev/null 2>&1
-wget github.com/nandoslayer/plusnssh/raw/ntech/gestorssh/painel.zip.003 > /dev/null 2>&1
-cat painel.zip* > painelweb.zip && zip -F painelweb.zip > /dev/null 2>&1
-rm -rf /opt/painel > /dev/null 2>&1
-unzip painelweb.zip -d  /opt/painel/ > /dev/null 2>&1
-chmod -R 777 /opt/painel > /dev/null 2>&1
-rm *.zip > /dev/null 2>&1
-rm *.001 > /dev/null 2>&1
-rm *.002 > /dev/null 2>&1
-rm *.003 > /dev/null 2>&1
 sleep 1
 rm /bin/pweb > /dev/null 2>&1
 sleep 5
