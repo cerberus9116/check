@@ -13,6 +13,7 @@ clear
 echo -e "\n\033[1;36mINICIANDO INSTALAÇÃO \033[1;33mAGUARDE..."
 apt install unzip -y > /dev/null 2>&1
 apt-get install figlet -y > /dev/null 2>&1
+apt-get install python -y > /dev/null 2>&1
 clear
 [[ ! -d /etc/SSHPlus ]] && mkdir /etc/SSHPlus
 [[ ! -d /etc/SSHPlus/Painel ]] && mkdir /etc/SSHPlus/Painel

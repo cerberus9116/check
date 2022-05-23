@@ -130,11 +130,9 @@ echo -e "\033[1;33m]\033[1;37m -\033[1;32m OK !\033[1;37m "
 tput cnorm
 }
 fun_tst () {
-apt-get install python -y > /dev/null 2>&1
-apt-get install python-pip -y > /dev/null 2>&1
-wget https://github.com/nandoslayer/plusnssh/raw/ntech/gestorssh/speedtest-cli -O speedtest2 > /dev/null 2>&1
-chmod +x speedtest2 > /dev/null 2>&1
-mv speedtest2 /usr/bin/speedtest2 > /dev/null 2>&1
+wget https://github.com/nandoslayer/plusnssh/raw/ntech/gestorssh/speedtest-cli -O speedtest2
+chmod +x speedtest2
+mv speedtest2 /usr/bin/speedtest2
 speedtest2 --share > speed
 }
 echo ""
