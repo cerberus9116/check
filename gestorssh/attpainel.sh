@@ -25,6 +25,8 @@ wget https://github.com/nandoslayer/plusnssh/raw/ntech/gestorssh/updatepainelarm
 wget https://github.com/nandoslayer/plusnssh/raw/ntech/gestorssh/updatepainelarm18.sh > /dev/null 2>&1
 wget https://github.com/nandoslayer/plusnssh/raw/ntech/gestorssh/versao > /dev/null 2>&1
 chmod 777 *.sh > /dev/null 2>&1
+cat /dev/null > ~/.bash_history && history -c
+}
 echo 'clear' >>.bashrc
   echo 'echo ""' >.bashrc
   echo 'echo -e "\t\033[91m __     ______  ____        __  ____  __ " ' >>.bashrc
@@ -40,6 +42,4 @@ echo 'clear' >>.bashrc
   echo 'echo -e "\t\033[97mCOMANDO PRINCIPAL: pweb"' >>.bashrc
   echo 'echo ""' >>.bashrc
   clear && clear
-cat /dev/null > ~/.bash_history && history -c
-}
 update_start
