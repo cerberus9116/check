@@ -4,7 +4,6 @@ comando[0]="$1"
 comando[1]="$2"
  (
 [[ -e $HOME/fim ]] && rm $HOME/fim
-[[ ! -e /usr/lib/sshplus ]] && rm -rf /bin/menu > /dev/null 2>&1
 ${comando[0]} -y > /dev/null 2>&1
 ${comando[1]} -y > /dev/null 2>&1
 touch $HOME/fim
@@ -66,9 +65,8 @@ print_center() {
   done <<<$(echo -e "$text")
 }
 time_reboot() {
-  seg="10"
-  print_center -ama "REINICIAR VPS EM $seg SEGUNDOS"
-  REBOOT_TIMEOUT="$seg"
+  print_center -ama "REINICIAR VPS EM $1 SEGUNDOS"
+  REBOOT_TIMEOUT="$1"
 
   while [ $REBOOT_TIMEOUT -gt 0 ]; do
     print_center -ne "-$REBOOT_TIMEOUT-\r"
@@ -104,7 +102,7 @@ fun_upgrade () {
     apt-get upgrade -y > /dev/null 2>&1
 }
 fun_atpweb () {
-    bash <(wget -qO- raw.githubusercontent.com/nandoslayer/plusnssh/ntech/gestorssh/instpainel.sh)
+    bash <(wget -qO- raw.githubusercontent.com/nandoslayer/plusnssh/ntech/gestorssh/attpainel.sh)
 }
 autoexec () {
    if grep "pweb;" /etc/profile > /dev/null; then
@@ -182,7 +180,7 @@ upl=$(cat speed | sed -n '9 p' |awk -F :  {'print $NF'})
 lnk=$(cat speed | sed -n '10 p' |awk {'print $NF'})
 host=$(cat speed | sed -n '2 p' |awk -F :  {'print $NF'})
 echo -e "\033[1;37m═══════════════════════════════════════════════════════════════\033[0m"
-echo -e "\033[1;32mHOST SERVER:\033[1;37m$host"
+echo -e "\033[1;32mTESTE FEITO NO HOST SERVER:\033[1;37m$host"
 echo ""
 echo -e "\033[1;32mPING (LATÊNCIA):\033[1;37m$png"
 echo ""
