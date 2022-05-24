@@ -349,6 +349,8 @@ echo -ne "\033[1;33m[\033[1;31m ! \033[1;33m] \033[1;31mATUALIZANDO"; fun_prog '
 echo -e " "
 echo -e " "
 echo -ne "\033[1;33m[\033[1;31m ! \033[1;33m] \033[1;31mCONCLUINDO"; fun_prog 'sleep 3'
+sleep 1
+clear
 echo ""
 echo -e "        \033[1;33m • \033[1;32mATUALIZAÇÃO CONCLUÍDA COM SUCESSO\033[1;33m • \033[0m"
 echo ""
