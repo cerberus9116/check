@@ -66,8 +66,9 @@ print_center() {
   done <<<$(echo -e "$text")
 }
 time_reboot() {
-  print_center -ama "REINICIAR VPS EM $1 SEGUNDOS"
-  REBOOT_TIMEOUT="$1"
+  seg="10"
+  print_center -ama "REINICIAR VPS EM $seg SEGUNDOS"
+  REBOOT_TIMEOUT="$seg"
 
   while [ $REBOOT_TIMEOUT -gt 0 ]; do
     print_center -ne "-$REBOOT_TIMEOUT-\r"
