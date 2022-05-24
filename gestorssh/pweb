@@ -81,6 +81,7 @@ print_center() {
   done <<<$(echo -e "$text")
 }
 time_reboot() {
+    echo ""
   print_center -ama "REINICIAR VPS EM $1 SEGUNDOS"
   echo ""
   REBOOT_TIMEOUT="$1"
@@ -466,10 +467,10 @@ case "$x" in
    11 | 011)
    clear
    echo ""
-   echo ""
-   echo -ne "\033[1;36mDESEJA REINICIAR [S/N]: \033[1;37m"; read x
-[[ $x = @(n|N) ]] && pweb
- time_reboot "10"
+   echo -ne "\033[1;36mDESEJA REALMENTE REINICIAR [S/N]: \033[1;37m"; read x
+   [[ $x = @(n|N) ]] && pweb
+   clear
+   time_reboot "10"
    exit;
    ;;
    0 | 00)
