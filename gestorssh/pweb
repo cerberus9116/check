@@ -452,7 +452,7 @@ case "$x" in
    echo ""
    echo -ne "\033[1;36mDESEJA REINICIAR [S/N]: \033[1;37m"; read x
 [[ $x = @(n|N) ]] && pweb
- time_reboot
+ time_reboot "15"
    exit;
    ;;
    0 | 00)
