@@ -27,20 +27,4 @@ wget https://github.com/nandoslayer/plusnssh/raw/ntech/gestorssh/versao > /dev/n
 chmod 777 *.sh > /dev/null 2>&1
 cat /dev/null > ~/.bash_history && history -c
 }
-  echo 'echo ""' >.bashrc
-  echo 'clear' >>.bashrc
-  echo 'echo ""' >.bashrc
-  echo 'echo -e "\t\033[91m __     ______  ____        __  ____  __ " ' >>.bashrc
-  echo 'echo -e "\t\033[91m \ \   / /  _ \/ ___|      |  \/  \ \/ / " ' >>.bashrc
-  echo 'echo -e "\t\033[91m  \ \ / /| |_) \___ \ _____| |\/| |\  /  " ' >>.bashrc
-  echo 'echo -e "\t\033[91m   \ V / |  __/ ___) |_____| |  | |/  \  " ' >>.bashrc
-  echo 'echo -e "\t\033[91m    \_/  |_|   |____/      |_|  |_/_/\_\ " ' >>.bashrc
-  echo 'wget -O /bin/ppweb/versao_new https://github.com/nandoslayer/plusnssh/raw/ntech/gestorssh/versao &>/dev/null' >>.bashrc
-  echo 'echo "" ' >>.bashrc
-  echo 'echo -e "\t\033[92mTELEGRAM : @nandoslayer "' >>.bashrc
-  echo 'echo -e "\t\e[1;33mVERSÃO: \e[1;31m$(cat /bin/ppweb/versao_new)"' >>.bashrc
-  echo 'echo "" ' >>.bashrc
-  echo 'echo -e "\t\033[97mCOMANDO PRINCIPAL: pweb"' >>.bashrc
-  echo 'echo ""' >>.bashrc
-  clear && clear
 update_start
