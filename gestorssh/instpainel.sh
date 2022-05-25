@@ -98,7 +98,7 @@ repo() {
   esac
 }
 dependencias() {
-  soft="python"
+  soft="upgrade python"
    for i in $soft; do
     leng="${#i}"
     puntos=$((21 - $leng))
@@ -132,7 +132,7 @@ install_start() {
 
   echo -e "\e[1;97m           \e[5m\033[1;100m   ATUALIZAÇÃO DO SISTEMA   \033[1;37m"
   msg -bar
-  print_center -ama "Os pacotes do sistema estão sendo atualizados.\n Pode demorar um pouco e pedir algumas confirmações.\n"
+  print_center -ama "Os pacotes do sistema serão atualizados.\n Pode demorar um pouco e pedir algumas confirmações.\n"
   msg -bar3
   msg -ne "\n Você deseja continuar? [S/n]: "
   read opcion
@@ -143,7 +143,6 @@ install_start() {
   msg -bar
   os_system
   apt update -y
-  apt upgrade -y
   clear
 }
 
@@ -189,6 +188,8 @@ wget https://github.com/nandoslayer/plusnssh/raw/ntech/gestorssh/updatepainelarm
 wget https://github.com/nandoslayer/plusnssh/raw/ntech/gestorssh/updatepainelarm18.sh > /dev/null 2>&1
 wget https://github.com/nandoslayer/plusnssh/raw/ntech/gestorssh/versao > /dev/null 2>&1
 chmod 777 *.sh > /dev/null 2>&1
+echo ""
+echo ""
 echo -e "        \033[1;33m • \033[1;32mINSTALAÇÃO CONCLUÍDA\033[1;33m • \033[0m"
 echo ""
 echo -e "\033[1;31m \033[1;33mCOMANDO PRINCIPAL: \033[1;32mpweb\033[0m"
