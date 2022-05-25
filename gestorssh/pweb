@@ -82,7 +82,7 @@ print_center() {
 }
 time_reboot() {
     echo ""
-  print_center -ama "REINICIAR VPS EM REBOOT_TIMEOUT="$1""
+  print_center -ama "REINICIANDO EM "REBOOT_TIMEOUT="$1"
 
   while [ $REBOOT_TIMEOUT -gt 0 ]; do
     print_center -ne "-$REBOOT_TIMEOUT-\r"
