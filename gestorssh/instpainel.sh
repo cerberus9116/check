@@ -98,7 +98,7 @@ repo() {
   esac
 }
 dependencias() {
-  soft="upgrade python"
+  soft="python"
    for i in $soft; do
     leng="${#i}"
     puntos=$((21 - $leng))
@@ -143,6 +143,7 @@ install_start() {
   msg -bar
   os_system
   apt update -y
+  apt upgrade -y
   clear
 }
 
