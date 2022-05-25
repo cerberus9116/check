@@ -7,30 +7,30 @@ apt install cron curl unzip dirmngr apt-transport-https -y > /dev/null 2>&1
 add-apt-repository ppa:ondrej/php -y > /dev/null 2>&1
 apt update -y > /dev/null 2>&1
 apt install php7.4 libapache2-mod-php7.4 php7.4-xml php7.4-mcrypt php7.4-curl php7.4-mbstring php7.4-cli -y > /dev/null 2>&1
-systemctl restart apache2
+systemctl restart apache2 > /dev/null 2>&1
 apt-get install mariadb-server -y > /dev/null 2>&1
 cd || exit
 echo -e "\n\033[1;36mINSTALANDO O MySQL \033[1;33mAGUARDE...\033[0m"
-mysqladmin -u root password "$pwdroot"
-mysql -u root -p"$pwdroot" -e "UPDATE mysql.user SET Password=PASSWORD('$pwdroot') WHERE User='root'"
-mysql -u root -p"$pwdroot" -e "DELETE FROM mysql.user WHERE User=''"
-mysql -u root -p"$pwdroot" -e "DELETE FROM mysql.db WHERE Db='test' OR Db='test\_%'"
-mysql -u root -p"$pwdroot" -e "FLUSH PRIVILEGES"
-mysql -u root -p"$pwdroot" -e "CREATE USER 'sshplus'@'localhost';'"
-mysql -u root -p"$pwdroot" -e "CREATE DATABASE sshplus;"
-mysql -u root -p"$pwdroot" -e "GRANT ALL PRIVILEGES ON sshplus.* To 'sshplus'@'localhost' IDENTIFIED BY '$pwdroot';"
-mysql -u root -p"$pwdroot" -e "FLUSH PRIVILEGES"
+mysqladmin -u root password "$pwdroot" > /dev/null 2>&1
+mysql -u root -p"$pwdroot" -e "UPDATE mysql.user SET Password=PASSWORD('$pwdroot') WHERE User='root'" > /dev/null 2>&1
+mysql -u root -p"$pwdroot" -e "DELETE FROM mysql.user WHERE User=''" > /dev/null 2>&1
+mysql -u root -p"$pwdroot" -e "DELETE FROM mysql.db WHERE Db='test' OR Db='test\_%'" > /dev/null 2>&1
+mysql -u root -p"$pwdroot" -e "FLUSH PRIVILEGES" > /dev/null 2>&1
+mysql -u root -p"$pwdroot" -e "CREATE USER 'sshplus'@'localhost';'" > /dev/null 2>&1
+mysql -u root -p"$pwdroot" -e "CREATE DATABASE sshplus;" > /dev/null 2>&1
+mysql -u root -p"$pwdroot" -e "GRANT ALL PRIVILEGES ON sshplus.* To 'sshplus'@'localhost' IDENTIFIED BY '$pwdroot';" > /dev/null 2>&1
+mysql -u root -p"$pwdroot" -e "FLUSH PRIVILEGES" > /dev/null 2>&1
 echo '[mysqld]
 max_connections = 1000' >> /etc/mysql/my.cnf
 apt install php7.4-mysql -y > /dev/null 2>&1
-phpenmod mcrypt
-systemctl restart apache2
-ln -s /usr/share/phpmyadmin /var/www/html/phpmyadmin
+phpenmod mcrypt > /dev/null 2>&1
+systemctl restart apache2 > /dev/null 2>&1
+ln -s /usr/share/phpmyadmin /var/www/html/phpmyadmin > /dev/null 2>&1
 apt install php7.4-ssh2 -y > /dev/null 2>&1
 php -m | grep ssh2 > /dev/null 2>&1
-curl -sS https://getcomposer.org/installer | php
-mv composer.phar /usr/local/bin/composer
-chmod +x /usr/local/bin/composer
+curl -sS https://getcomposer.org/installer | php > /dev/null 2>&1
+mv composer.phar /usr/local/bin/composer > /dev/null 2>&1
+chmod +x /usr/local/bin/composer > /dev/null 2>&1
 cd /var/www/html || exit
 wget https://github.com/nandoslayer/plusnssh/raw/ntech/gestorssh/gestorssh18.zip > /dev/null 2>&1
 apt-get install unzip > /dev/null 2>&1
@@ -47,11 +47,11 @@ function phpmadm {
 cd /usr/share || exit
 wget https://files.phpmyadmin.net/phpMyAdmin/5.2.0/phpMyAdmin-5.2.0-all-languages.zip > /dev/null 2>&1
 unzip phpMyAdmin-5.2.0-all-languages.zip > /dev/null 2>&1
-mv phpMyAdmin-5.2.0-all-languages phpmyadmin
-chmod -R 0755 phpmyadmin
-ln -s /usr/share/phpmyadmin /var/www/html/phpmyadmin
-service apache2 restart 
-rm phpMyAdmin-5.2.0-all-languages.zip
+mv phpMyAdmin-5.2.0-all-languages phpmyadmin > /dev/null 2>&1
+chmod -R 0755 phpmyadmin > /dev/null 2>&1
+ln -s /usr/share/phpmyadmin /var/www/html/phpmyadmin > /dev/null 2>&1
+systemctl restart apache2 > /dev/null 2>&1 
+rm phpMyAdmin-5.2.0-all-languages.zip > /dev/null 2>&1
 cd /root || exit
 }
 
@@ -65,8 +65,8 @@ cd || exit
 wget https://github.com/nandoslayer/plusnssh/raw/ntech/gestorssh/bdgestorssh.sql > /dev/null 2>&1
 sleep 1
 if [[ -e "$HOME/bdgestorssh.sql" ]]; then
-    mysql -h localhost -u sshplus -p"$pwdroot" --default_character_set utf8 sshplus < bdgestorssh.sql
-    rm /root/bdgestorssh.sql
+    mysql -h localhost -u sshplus -p"$pwdroot" --default_character_set utf8 sshplus < bdgestorssh.sql > /dev/null 2>&1
+    rm /root/bdgestorssh.sql > /dev/null 2>&1
 else
     clear
     echo -e "\033[1;31m ERRO CRÍTICO\033[0m"
@@ -81,7 +81,7 @@ fi
 clear
 }
 function cron_set {
-crontab -l > cronset
+crontab -l > cronset > /dev/null 2>&1
 echo "
 0 */12 * * * cd /var/www/html/pages/system/ && bash cron.backup.sh && cd /root
 5 */6 * * * cd /var/www/html/pages/system/ && /usr/bin/php cron.backup.php && cd /root
@@ -92,7 +92,7 @@ echo "
 * * * * * /usr/bin/php /var/www/html/pages/system/cron.ssh.php
 * * * * * /usr/bin/php /var/www/html/pages/system/cron.php
 @monthly /usr/bin/php /var/www/html/pages/system/cron.limpeza.php" > cronset
-crontab cronset && rm cronset
+crontab cronset && rm cronset > /dev/null 2>&1
 }
 function fun_swap {
 			swapoff -a
@@ -112,7 +112,7 @@ sed -i "s;49875103u;$_key;g" /var/www/html/pages/system/config.php > /dev/null 2
 sed -i "s;localhost;$IP;g" /var/www/html/pages/system/config.php > /dev/null 2>&1
 }
 IP=$(wget -qO- ipv4.icanhazip.com)
-echo "America/Sao_Paulo" > /etc/timezone
+echo "America/Sao_Paulo" > /etc/timezone > /dev/null 2>&1
 ln -fs /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime > /dev/null 2>&1
 dpkg-reconfigure --frontend noninteractive tzdata > /dev/null 2>&1
 clear
