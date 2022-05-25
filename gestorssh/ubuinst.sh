@@ -124,8 +124,8 @@ echo "root:$pwdroot" | chpasswd
 echo -e "\n\033[1;36mINICIANDO INSTALAÇÃO \033[1;33mAGUARDE..."
 sleep 6
 clear
-echo "INSTALANDO DEPENDÊNCIAS"
-echo "..."
+echo "INSTALANDO DEPENDÊNCIAS..."
+echo ""
 sleep 2
 inst_base
 phpmadm
