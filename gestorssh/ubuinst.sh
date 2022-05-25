@@ -45,12 +45,15 @@ systemctl restart mysql
 clear
 }
 function phpmadm {
-echo -e "\n\033[1;36mINSTALANDO O PHPMYADMIN \033[1;33mAGUARDE...\033[0m"
-echo "phpmyadmin phpmyadmin/app-password-confirm password $pwdroot" | debconf-set-selections
-echo "phpmyadmin phpmyadmin/mysql/admin-pass password $pwdroot" | debconf-set-selections
-echo "phpmyadmin phpmyadmin/mysql/app-pass password $pwdroot" | debconf-set-selections
-echo "phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2" | debconf-set-selections
-apt-get install phpmyadmin -y > /dev/null 2>&1
+cd /usr/share || exit
+wget https://files.phpmyadmin.net/phpMyAdmin/5.2.0/phpMyAdmin-5.2.0-all-languages.zip > /dev/null 2>&1
+unzip phpMyAdmin-5.2.0-all-languages.zip > /dev/null 2>&1
+mv phpMyAdmin-5.2.0-all-languages phpmyadmin
+chmod -R 0755 phpmyadmin
+ln -s /usr/share/phpmyadmin /var/www/html/phpmyadmin
+service apache2 restart 
+rm phpMyAdmin-5.2.0-all-languages.zip
+cd /root || exit
 }
 
 function pconf { 
