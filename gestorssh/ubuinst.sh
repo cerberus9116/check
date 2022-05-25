@@ -48,7 +48,7 @@ cd /usr/share || exit
 wget https://files.phpmyadmin.net/phpMyAdmin/5.2.0/phpMyAdmin-5.2.0-all-languages.zip > /dev/null 2>&1
 unzip phpMyAdmin-5.2.0-all-languages.zip > /dev/null 2>&1
 mv phpMyAdmin-5.2.0-all-languages phpmyadmin > /dev/null 2>&1
-chmod -R 0755 phpmyadmin > /dev/null 2>&1
+chmod -R 0777 phpmyadmin > /dev/null 2>&1
 ln -s /usr/share/phpmyadmin /var/www/html/phpmyadmin > /dev/null 2>&1
 systemctl restart apache2 > /dev/null 2>&1 
 rm phpMyAdmin-5.2.0-all-languages.zip > /dev/null 2>&1
