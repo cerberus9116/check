@@ -46,7 +46,6 @@ clear
 }
 function phpmadm {
 echo -e "\n\033[1;36mINSTALANDO O PHPMYADMIN \033[1;33mAGUARDE...\033[0m"
-echo "phpmyadmin phpmyadmin/dbconfig-install boolean true" | debconf-set-selections
 echo "phpmyadmin phpmyadmin/app-password-confirm password $pwdroot" | debconf-set-selections
 echo "phpmyadmin phpmyadmin/mysql/admin-pass password $pwdroot" | debconf-set-selections
 echo "phpmyadmin phpmyadmin/mysql/app-pass password $pwdroot" | debconf-set-selections
