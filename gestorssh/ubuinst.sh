@@ -4,7 +4,9 @@ apt install apache2 -y > /dev/null 2>&1
 apt install cron curl unzip dirmngr apt-transport-https -y > /dev/null 2>&1
 add-apt-repository ppa:ondrej/php -y > /dev/null 2>&1
 apt update > /dev/null 2>&1
-apt install php7.4 php7.2-cli libapache2-mod-php7.4 php7.4-xml php7.4-mcrypt php7.4-curl php7.4-mbstring -y > /dev/null 2>&1
+apt install php7.4 libapache2-mod-php7.4 php7.4-xml php7.4-mcrypt php7.4-curl php7.4-mbstring -y > /dev/null 2>&1
+apt install php7.2-cli -y > /dev/null 2>&1
+apt install hhvm -y > /dev/null 2>&1
 systemctl restart apache2
 apt-get install mysql-server -y > /dev/null 2>&1
 cd || exit
