@@ -135,6 +135,7 @@ install_start() {
   msg -bar
   echo -e "\e[1;97m           \e[5m\033[1;100m   ATUALIZAÇÃO DO SISTEMA   \033[1;37m"
   msg -bar
+  apt install software-properties-common -y
   apt update -y
   apt upgrade -y
   clear
