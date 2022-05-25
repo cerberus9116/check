@@ -448,7 +448,11 @@ case "$x" in
    ;;
     8 | 08)
    clear
-   /opt/painel/painel
+   echo ""
+   echo -e "\033[1;31mCALMA, QUE É EM BREVE!!!\033[0m"
+   echo ""
+   echo -ne "\n\033[1;31mENTER \033[1;33mpara retornar ao \033[1;32mPWEB! \033[0m"; read
+   pweb
    exit;
    ;;
     9 | 09)
