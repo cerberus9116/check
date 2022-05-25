@@ -1,33 +1,14 @@
 #!/bin/bash
 function inst_base {
     echo -e "\n\033[1;36mINSTALANDO O APACHE2 \033[1;33mAGUARDE...\033[0m"
+apt install software-properties-common -y > /dev/null 2>&1
 apt install apache2 -y > /dev/null 2>&1
 apt install cron curl unzip dirmngr apt-transport-https -y > /dev/null 2>&1
 add-apt-repository ppa:ondrej/php -y > /dev/null 2>&1
-apt update > /dev/null 2>&1
+apt update -y > /dev/null 2>&1
 apt install php7.4 libapache2-mod-php7.4 php7.4-xml php7.4-curl php7.4-mbstring -y > /dev/null 2>&1
 apt install php7.2-cli -y > /dev/null 2>&1
 apt install hhvm -y > /dev/null 2>&1
-php -v
-pecl version
-apt-get install php-pear
-apt-get install php7.4-dev -y
-apt-get -y install gcc make autoconf libc-dev pkg-config -y
-pecl channel-update pecl.php.net
-apt-get -y install libmcrypt-dev
-apt-get install php7.4-dev -y
-pecl install mcrypt-1.0.3
-bash -c "echo extension=/usr/lib/php/20190902/mcrypt.so > /etc/php/7.4/mods-available/mcrypt.ini"
-ln -s /etc/php/7.4/mods-available/mcrypt.ini /etc/php/7.4/fpm/conf.d/20-mcrypt.ini
-ln -s /etc/php/7.4/mods-available/mcrypt.ini /etc/php/7.4/cli/conf.d/20-mcrypt.ini
-php -i | grep mcrypt
-pecl install raphf
-bash -c "echo extension=/usr/lib/php/20190902/raphf.so > /etc/php/7.4/mods-available/raphf.ini"
-ln -s /etc/php/7.4/mods-available/raphf.ini /etc/php/7.4/fpm/conf.d/20-raphf.ini
-bash -c "echo extension=/usr/lib/php/20190902/grpc.so > /etc/php/7.4/mods-available/grpc.ini"
-ln -s /etc/php/7.4/mods-available/grpc.ini /etc/php/7.4/fpm/conf.d/20-grpc.ini
-bash -c "echo extension=/usr/lib/php/20190902/protobuf.so > /etc/php/7.4/mods-available/protobuf.ini"
-ln -s /etc/php/7.4/mods-available/protobuf.ini /etc/php/7.4/fpm/conf.d/20-protobuf.ini
 systemctl restart apache2
 apt-get install mariadb-server -y > /dev/null 2>&1
 cd || exit
