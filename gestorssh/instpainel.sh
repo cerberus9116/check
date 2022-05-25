@@ -142,6 +142,7 @@ install_start() {
   echo -e "\e[1;97m           \e[5m\033[1;100m   ATUALIZAÇÃO DO SISTEMA   \033[1;37m"
   msg -bar
   os_system
+  repo "${vercion}"
   apt update -y
   apt upgrade -y
   clear
@@ -167,8 +168,6 @@ install_continue() {
   read -t 60 -n 1 -rsp $'\033[1;39m       << Pressione enter para continuar >>\n'
 }
 install_continue2() {
-[[ ! -d /etc/SSHPlus ]] && mkdir /etc/SSHPlus
-[[ ! -d /etc/SSHPlus/Painel ]] && mkdir /etc/SSHPlus/Painel
 rm /bin/pweb > /dev/null 2>&1
 cd /bin || exit
 wget https://github.com/nandoslayer/plusnssh/raw/ntech/gestorssh/pweb > /dev/null 2>&1

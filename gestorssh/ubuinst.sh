@@ -36,7 +36,7 @@ print_center() {
     fi
   done <<<$(echo -e "$text")
 }
-function dependencias() {
+dependencias() {
   soft="apache2 cron curl unzip dirmngr apt-transport-https add-apt-repository ppa:ondrej/php update php7.4 php7.2-cli libapache2-mod-php7.4 php7.4-xml php7.4-mcrypt php7.4-curl php7.4-mbstring mariadb-server php7.4-mysql"
    for i in $soft; do
     leng="${#i}"
@@ -66,7 +66,35 @@ function dependencias() {
     fi
   done
 }
-function inst_base {
+os_system() {
+  system=$(cat -n /etc/issue | grep 1 | cut -d ' ' -f6,7,8 | sed 's/1//' | sed 's/      //')
+  distro=$(echo "$system" | awk '{print $1}')
+
+  case $distro in
+  Debian) vercion=$(echo $system | awk '{print $3}' | cut -d '.' -f1) ;;
+  Ubuntu) vercion=$(echo $system | awk '{print $2}' | cut -d '.' -f1,2) ;;
+  esac
+}
+install_() {
+  os_system
+  msg -bar
+  echo -e "      \e[5m\033[1;100m   INSTALANDO PACOTES   \033[1;37m"
+  msg -bar
+  print_center -ama "$distro $vercion"
+  print_center -verd "INSTALANDO DEPENDÊNCIAS"
+  msg -bar3
+  dependencias
+  msg -bar3
+  print_center -azu "Removendo pacotes obsoletos"
+  apt autoremove -y &>/dev/null
+  sleep 2
+  tput cuu1 && tput dl1
+  msg -bar
+  print_center -ama "Se algumas das dependências falharem!!!\nQuando terminar, você pode tentar instalar\no mesmo manualmente usando o seguinte comando\napt install nome_do_pacote"
+  msg -bar
+  read -t 60 -n 1 -rsp $'\033[1;39m       << Pressione enter para continuar >>\n'
+}
+inst_base() {
 systemctl restart apache2
 cd || exit
 mysqladmin -u root password "$pwdroot"
@@ -100,7 +128,7 @@ rm gestorssh18.zip index.html > /dev/null 2>&1
 systemctl restart mysql
 clear
 }
-function phpmadm {
+phpmadm() {
 cd /usr/share || exit
 wget https://files.phpmyadmin.net/phpMyAdmin/5.1.0/phpMyAdmin-5.1.0-all-languages.zip > /dev/null 2>&1
 unzip phpMyAdmin-5.1.0-all-languages.zip > /dev/null 2>&1
@@ -112,12 +140,12 @@ rm phpMyAdmin-5.1.0-all-languages.zip
 cd /root || exit
 }
 
-function pconf { 
+pconf() { 
 sed "s/1020/$pwdroot/" /var/www/html/pages/system/pass.php > /tmp/pass
 mv /tmp/pass /var/www/html/pages/system/pass.php
 
 }
-function inst_db { 
+inst_db() { 
 cd || exit
 wget https://github.com/nandoslayer/plusnssh/raw/ntech/gestorssh/bdgestorssh.sql > /dev/null 2>&1
 sleep 1
@@ -137,7 +165,7 @@ pweb
 fi
 clear
 }
-function cron_set {
+cron_set() {
 crontab -l > cronset
 echo "
 0 */12 * * * cd /var/www/html/pages/system/ && bash cron.backup.sh && cd /root
@@ -151,7 +179,7 @@ echo "
 @monthly /usr/bin/php /var/www/html/pages/system/cron.limpeza.php" > cronset
 crontab cronset && rm cronset
 }
-function fun_swap {
+fun_swap() {
 			swapoff -a
             rm -rf /bin/ram.img > /dev/null 2>&1
             fallocate -l 4G /bin/ram.img > /dev/null 2>&1
@@ -162,7 +190,7 @@ function fun_swap {
             echo '/bin/ram.img none swap sw 0 0' | sudo tee -a /etc/fstab > /dev/null 2>&1
             sleep 2
 }
-function tst_bkp {
+tst_bkp() {
 cd || exit
 _key=$(echo $(openssl rand -hex 5))
 sed -i "s;49875103u;$_key;g" /var/www/html/pages/system/config.php > /dev/null 2>&1
