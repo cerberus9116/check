@@ -1,5 +1,7 @@
 #!/bin/bash
 function inst_base {
+echo ""
+echo -e "\n\033[1;36mINSTALANDO O APACHE2 \033[1;33mAGUARDE...\033[0m"
 apt install apache2 -y > /dev/null 2>&1
 apt install cron curl unzip dirmngr apt-transport-https -y > /dev/null 2>&1
 add-apt-repository ppa:ondrej/php -y > /dev/null 2>&1
@@ -8,17 +10,20 @@ apt install php7.4 libapache2-mod-php7.4 php7.4-xml php7.4-mcrypt php7.4-curl ph
 apt install php7.2-cli -y > /dev/null 2>&1
 apt install hhvm -y > /dev/null 2>&1
 systemctl restart apache2
-apt-get install mysql-server -y > /dev/null 2>&1
 cd || exit
-mysqladmin -u root password "$pwdroot"
-mysql -u root -p"$pwdroot" -e "UPDATE mysql.user SET Password=PASSWORD('$pwdroot') WHERE User='root'"
-mysql -u root -p"$pwdroot" -e "DELETE FROM mysql.user WHERE User=''"
-mysql -u root -p"$pwdroot" -e "DELETE FROM mysql.db WHERE Db='test' OR Db='test\_%'"
-mysql -u root -p"$pwdroot" -e "FLUSH PRIVILEGES"
-mysql -u root -p"$pwdroot" -e "CREATE USER 'sshplus'@'localhost';'"
-mysql -u root -p"$pwdroot" -e "CREATE DATABASE sshplus;"
-mysql -u root -p"$pwdroot" -e "GRANT ALL PRIVILEGES ON sshplus.* To 'sshplus'@'localhost' IDENTIFIED BY '$pwdroot';"
-mysql -u root -p"$pwdroot" -e "FLUSH PRIVILEGES"
+echo -e "\n\033[1;36mINSTALANDO O MySQL \033[1;33mAGUARDE...\033[0m"
+echo "debconf mysql-server/root_password password $pwdroot" | debconf-set-selections
+echo "debconf mysql-server/root_password_again password $pwdroot" | debconf-set-selections
+apt-get install mysql-server -y > /dev/null 2>&1
+mysql_install_db > /dev/null 2>&1
+(echo "$pwdroot"; echo n; echo y; echo y; echo y; echo y)|mysql_secure_installation > /dev/null 2>&1
+echo -e "\n\033[1;36mINSTALANDO O PHPMYADMIN \033[1;33mAGUARDE...\033[0m"
+echo "phpmyadmin phpmyadmin/dbconfig-install boolean true" | debconf-set-selections
+echo "phpmyadmin phpmyadmin/app-password-confirm password $pwdroot" | debconf-set-selections
+echo "phpmyadmin phpmyadmin/mysql/admin-pass password $pwdroot" | debconf-set-selections
+echo "phpmyadmin phpmyadmin/mysql/app-pass password $pwdroot" | debconf-set-selections
+echo "phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2" | debconf-set-selections
+apt-get install phpmyadmin -y > /dev/null 2>&1
 echo '[mysqld]
 max_connections = 1000' >> /etc/mysql/my.cnf
 apt install php7.4-mysql -y > /dev/null 2>&1
@@ -41,17 +46,6 @@ chmod 777 -R /var/www/html > /dev/null 2>&1
 rm gestorssh18.zip index.html > /dev/null 2>&1
 systemctl restart mysql
 clear
-}
-function phpmadm {
-cd /usr/share || exit
-wget https://files.phpmyadmin.net/phpMyAdmin/5.1.0/phpMyAdmin-5.1.0-all-languages.zip > /dev/null 2>&1
-unzip phpMyAdmin-5.1.0-all-languages.zip > /dev/null 2>&1
-mv phpMyAdmin-5.1.0-all-languages phpmyadmin
-chmod -R 0755 phpmyadmin
-ln -s /usr/share/phpmyadmin /var/www/html/phpmyadmin
-systemctl restart apache2 
-rm phpMyAdmin-5.1.0-all-languages.zip
-cd /root || exit
 }
 
 function pconf { 
@@ -124,11 +118,8 @@ echo "root:$pwdroot" | chpasswd
 echo -e "\n\033[1;36mINICIANDO INSTALAÇÃO \033[1;33mAGUARDE..."
 sleep 6
 clear
-echo "INSTALANDO DEPENDÊNCIAS"
-echo "..."
 sleep 2
 inst_base
-phpmadm
 pconf
 inst_db
 cron_set
