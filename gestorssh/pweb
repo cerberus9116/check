@@ -82,7 +82,7 @@ print_center() {
 }
 time_reboot() {
     echo ""
-  print_center -ama "REINICIANDO EM " && REBOOT_TIMEOUT="$1"
+  print_center -ama "REINICIANDO EM "
   echo ""
   REBOOT_TIMEOUT="$1"
 
