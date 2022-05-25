@@ -6,7 +6,7 @@ add-apt-repository ppa:ondrej/php -y > /dev/null 2>&1
 apt update > /dev/null 2>&1
 apt install php7.4 php7.2-cli libapache2-mod-php7.4 php7.4-xml php7.4-mcrypt php7.4-curl php7.4-mbstring -y > /dev/null 2>&1
 systemctl restart apache2
-apt-get install mariadb-server -y > /dev/null 2>&1
+apt-get install mysql-server -y > /dev/null 2>&1
 cd || exit
 mysqladmin -u root password "$pwdroot"
 mysql -u root -p"$pwdroot" -e "UPDATE mysql.user SET Password=PASSWORD('$pwdroot') WHERE User='root'"
