@@ -9,7 +9,7 @@ apt install php7.4 libapache2-mod-php7.4 php7.4-xml php7.4-mcrypt php7.4-curl ph
 apt install php7.2-cli -y > /dev/null 2>&1
 apt install hhvm -y > /dev/null 2>&1
 systemctl restart apache2
-apt-get install mysql-server -y > /dev/null 2>&1
+apt-get install mariadb-server -y > /dev/null 2>&1
 cd || exit
 echo -e "\n\033[1;36mINSTALANDO O MySQL \033[1;33mAGUARDE...\033[0m"
 mysqladmin -u root password "$pwdroot"
