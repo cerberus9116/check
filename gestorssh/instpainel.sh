@@ -90,13 +90,6 @@ os_system() {
   Ubuntu) vercion=$(echo $system | awk '{print $2}' | cut -d '.' -f1,2) ;;
   esac
 }
-
-repo() {
-  link="https://github.com/nandoslayer/plusnssh/raw/ntech/gestorssh/source-list/$1.list"
-  case $1 in
-  8 | 9 | 10 | 11 | 14.04 | 16.04 | 18.04 | 20.04 | 20.10 | 21.04 | 21.10 | 22.04) wget -O /etc/apt/sources.list ${link} &>/dev/null ;;
-  esac
-}
 dependencias() {
   soft="python"
    for i in $soft; do
@@ -138,11 +131,10 @@ install_start() {
   read opcion
   [[ "$opcion" != @(s|S) ]] && stop_install
   clear && clear
+  os_system
   msg -bar
   echo -e "\e[1;97m           \e[5m\033[1;100m   ATUALIZAÇÃO DO SISTEMA   \033[1;37m"
   msg -bar
-  os_system
-  repo "${vercion}"
   apt update -y
   apt upgrade -y
   clear
