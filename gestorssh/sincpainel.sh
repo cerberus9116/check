@@ -6,7 +6,9 @@ ln -fs /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
 dpkg-reconfigure --frontend noninteractive tzdata
 clear
 echo -e "\033[1;36mPOR FAVOR AGUARDE...\033[0m"
+if [[ -e "/opt/sshplus/licenca.txt" ]]; then
 crack=$(cut -d"'" -f2 /opt/sshplus/licenca.txt) > /dev/null 2>&1
+fi
 sleep 1.5
 echo -e "\033[1;36mVALIDANDO UMA LICENÇA...\033[0m"
 rm *.sh* > /dev/null 2>&1
