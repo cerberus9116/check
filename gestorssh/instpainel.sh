@@ -122,6 +122,7 @@ dependencias() {
 }
 install_start() {
   msg -bar
+  echo -e 'by: @nandoslayer' >/usr/lib/telegram
 
   echo -e "\e[1;97m           \e[5m\033[1;100m   ATUALIZAÇÃO DO SISTEMA   \033[1;37m"
   msg -bar
