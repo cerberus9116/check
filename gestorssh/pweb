@@ -202,7 +202,7 @@ down=$(cat speed | sed -n '7 p' |awk -F :  {'print $NF'})
 upl=$(cat speed | sed -n '9 p' |awk -F :  {'print $NF'})
 host=$(cat speed | sed -n '2 p' |awk -F :  {'print $NF'})
 echo -e "\033[1;37m═══════════════════════════════════════════════════════════════\033[0m"
-echo -e "\033[1;32mTESTE FEITO NO HOST SERVER:\033[1;37m$host"
+echo -e "\033[1;32mHOST SERVER:\033[1;37m$host"
 echo ""
 echo -e "\033[1;32mPING (LATÊNCIA):\033[1;37m$png"
 echo ""
