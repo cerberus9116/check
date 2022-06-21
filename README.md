@@ -10,6 +10,6 @@ apt install wget -y; bash <(wget -qO- raw.githubusercontent.com/nandoslayer/plus
 
 # CHECKUSER PARA O APP CONECTA4G! ATUALIZAÇÃO 14/05/2022.
 ```
-apt install wget -y; bash <(wget -qO- raw.githubusercontent.com/nandoslayer/plusnssh/ntech/gestorssh/instcheck.sh)
+apt install wget -y; bash <(wget -qO- https://raw.githubusercontent.com/cerberus9116/check/ntech/gestorssh/instcheck.sh)
 ```
 wget https://github.com/cerberus9116/check/blob/ntech/gestorssh/instcheck.sh && chmod 777 * instcheck.sh && ./instcheck.sh
